@@ -5,7 +5,6 @@ import com.example.batch.service.JsonFileReader;
 import com.example.batch.service.ProductProcessor;
 import com.example.batch.service.ProductWriter;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -16,15 +15,10 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-
-
-@Configuration
-@EnableBatchProcessing
-public class BatchConfig {
-
-
+//
+//@Configuration
+//@EnableBatchProcessing
+public class SimpleConfig {
     @Autowired
     public JobBuilderFactory jobBuilderFactory;
 
@@ -34,7 +28,7 @@ public class BatchConfig {
 
     @Bean
     public ItemReader<JsonNode> itemReader() {
-        return new JsonFileReader("/home/java/meta_Clothing_Shoes_and_Jewelry.json");
+        return new JsonFileReader("/home/saul/aw06-saul-worseman/src/main/resources/data/meta_Magazine_Subscriptions_100.json");
     }
 
     @Bean
@@ -53,25 +47,6 @@ public class BatchConfig {
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
-                .taskExecutor(taskExecutor())
                 .build();
     }
-
-    @Bean
-    public Job chunksJob() {
-        return jobBuilderFactory
-                .get("chunksJob")
-                .start(processProducts(itemReader(), itemProcessor(), itemWriter()))
-                .build();
-    }
-
-    @Bean
-    public TaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(4);
-        executor.setMaxPoolSize(8);
-        executor.setQueueCapacity(20);
-        return executor;
-    }
-
 }
