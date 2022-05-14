@@ -21,3 +21,14 @@ Please finish the following tasks:
 
 
 And, of course, always try to make the system run as fast as possible.
+
++ 最终效果
+
+![image-20220509162844991](src/main/resources/image-20220509162844991.png)
+
++ 主要步骤
+    + 使用split命令分割下载好的亚马逊的软件和游戏的元数据
+    + 修改Product,从而可以利用spring data jpa将其轻松持久化到数据库
+    + 写相关类（踩了很多坑比如`spring.jpa.hibernate.ddl-auto=create`和`spring.jpa.hibernate.ddl-auto=update`
+    + 在aw04中将amazon的raw date转化成我们所需要的product
+- 在探求懒加载的可能性
